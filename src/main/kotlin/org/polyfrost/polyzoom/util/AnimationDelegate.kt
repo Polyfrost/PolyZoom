@@ -11,7 +11,7 @@ class AnimationDelegate(initial: Float, private val duration: () -> Float) {
     var animation: Animation = DummyAnimation(initial)
 
     operator fun getValue(thisRef: Any?, property: KProperty<*>): Float {
-        if (animation.end == 1f && !animation.isFinished) mc.renderGlobal.setDisplayListEntitiesDirty()
+        if (!animation.isFinished) mc.renderGlobal.setDisplayListEntitiesDirty()
         Zoom.isZooming = !animation.isFinished || animation.end != 1f || Zoom.shouldZoom
         return animation.get()
     }
