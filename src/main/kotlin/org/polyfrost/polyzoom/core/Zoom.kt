@@ -47,7 +47,7 @@ object Zoom {
 
         if (isZooming && ModConfig.dynamicSens) mc.gameSettings.mouseSensitivity = sens / sqrt(scale)
 
-        scrolling += Mouse.getDWheel().coerceIn(-1..1) * ModConfig.scrollAmount
+        if (isZooming) scrolling += Mouse.getDWheel().coerceIn(-1..1) * ModConfig.scrollAmount
         scrolling = if (ModConfig.scrollToScale) max(-ModConfig.scale + 1f, scrolling) else 0f
         smoothedScale = if (shouldZoom) ModConfig.scale + scrolling else 1f
         scale = smoothedScale
