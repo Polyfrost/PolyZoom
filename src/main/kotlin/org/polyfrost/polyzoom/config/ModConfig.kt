@@ -9,6 +9,7 @@ import cc.polyfrost.oneconfig.libs.universal.UKeyboard
 import org.polyfrost.polyzoom.PolyZoom
 
 object ModConfig : Config(Mod("Zoom", ModType.UTIL_QOL, "/${PolyZoom.MODID}.svg"), "${PolyZoom.MODID}.json") {
+
     @KeyBind(name = "Zoom Keybind", size = 2)
     var keybind = OneKeyBind(UKeyboard.KEY_F3, UKeyboard.KEY_B)
 
@@ -18,14 +19,26 @@ object ModConfig : Config(Mod("Zoom", ModType.UTIL_QOL, "/${PolyZoom.MODID}.svg"
     @Slider(name = "Scale", min = 1f, max = 10f)
     var scale = 4f
 
-    @Slider(name = "Animation Duration", min = 0f, max = 1000f, step = 10)
-    var animationDuration = 200
+    @Slider(name = "Animation Speed", min = 0.5f, max = 2f)
+    var animationDuration = 1f
 
-    @Dropdown(name = "Show Hand", options = ["Static", "Zoomed", "Never"])
-    var showHand = 0
+    @Switch(
+        name = "Dynamic Zoom Sensitivity",
+        description = "Reduce your mouse sensitivity the more you zoom in.",
+    )
+    var dynamicSens = true
+
+    @Switch(name = "Smooth Camera")
+    var smoothCamera = true
+
+//    @Dropdown(name = "Show Hand", options = ["Static", "Zoomed", "Never"])
+//    var showHand = 0
 
     @Switch(name = "Scroll to Scale", subcategory = "Scroll")
     var scrollToScale = false
+
+    @Slider(name = "Scroll Amount", min = 0.2f, max = 10f)
+    var scrollAmount = 1f
 
     init {
         initialize()

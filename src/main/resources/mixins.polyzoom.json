@@ -1,12 +1,16 @@
 {
   "compatibilityLevel": "JAVA_8",
   "minVersion": "0.7",
-  "package": "org.polyfrost.example.mixin",
+  "package": "org.polyfrost.polyzoom.mixin",
   "refmap": "mixins.polyzoom.refmap.json",
   "injectors": {
     "maxShiftBy": 5
   },
   "client": [
+    "EntityRendererMixin"
   ],
-  "verbose": true
+  "verbose": true,
+  "mixins": [
+    "InventoryPlayerMixin"
+  ]
 }
