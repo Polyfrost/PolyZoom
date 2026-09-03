@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "polyzoom",
+  "name": "PolyZoom",
+  "version": "${version}",
+  "environment": "client",
+  "description": "zoom",
+  "authors": ["Polyfrost"],
+  "contact": {
+    "issues": "https://github.com/Polyfrost/${mod_name}/issues",
+    "sources": "https://github.com/Polyfrost/${mod_name}"
+  },
+  "entrypoints": {
+    "client": ["org.polyfrost.polyzoom.PolyZoom"]
+  },
+  "license": "GPL-3.0-or-later"
+}
