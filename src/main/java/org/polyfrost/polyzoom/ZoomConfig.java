@@ -1,44 +1,14 @@
 package org.polyfrost.polyzoom;
 
-import java.util.function.Consumer;
-
-import org.lwjgl.input.Keyboard;
 import org.polyfrost.oneconfig.api.config.v1.Config;
 import org.polyfrost.oneconfig.api.config.v1.annotations.Dropdown;
 import org.polyfrost.oneconfig.api.config.v1.annotations.Include;
-import org.polyfrost.oneconfig.api.config.v1.annotations.Keybind;
 import org.polyfrost.oneconfig.api.config.v1.annotations.Slider;
 import org.polyfrost.oneconfig.api.config.v1.annotations.Switch;
-import org.polyfrost.oneconfig.api.ui.v1.keybind.KeybindHelper;
-import org.polyfrost.oneconfig.api.ui.v1.keybind.OneConfigKeybind;
 
 public class ZoomConfig extends Config {
-	public enum ZoomKeyBehaviour { HOLD, TOGGLE }
-
-	@Keybind(title = "Zoom", category = "Zoom", subcategory = "Keybinds")
-	public OneConfigKeybind zoomKey = KeybindHelper.builder()
-		.key(Keyboard.KEY_C)
-		.action((Consumer<Boolean>) down -> PolyZoom.instance().onZoomKey(down))
-		.build();
-
-	@Keybind(title = "Secondary Zoom", category = "Zoom", subcategory = "Keybinds")
-	public OneConfigKeybind secondaryZoomKey = KeybindHelper.builder()
-		.key(Keyboard.KEY_F6)
-		.action((Consumer<Boolean>) down -> PolyZoom.instance().onSecondaryZoomKey(down))
-		.build();
-
-	@Keybind(title = "Zoom In", category = "Zoom", subcategory = "Keybinds")
-	public OneConfigKeybind zoomInKey = KeybindHelper.builder()
-		.action(down -> { if (down) PolyZoom.instance().addScrollStep(1); })
-		.build();
-
-	@Keybind(title = "Zoom Out", category = "Zoom", subcategory = "Keybinds")
-	public OneConfigKeybind zoomOutKey = KeybindHelper.builder()
-		.action(down -> { if (down) PolyZoom.instance().addScrollStep(-1); })
-		.build();
-
-	@Dropdown(title = "Zoom Key Behaviour", category = "Zoom", subcategory = "Keybinds")
-	public ZoomKeyBehaviour zoomKeyBehaviour = ZoomKeyBehaviour.HOLD;
+	@Dropdown(title = "Zoom Key Behaviour", category = "Zoom", subcategory = "Keybinds", options = {"hold", "toggle"})
+	public String zoomKeyBehaviour = "hold";
 
 	@Slider(title = "Initial Zoom", description = "How many times closer the initial zoom is.", category = "Zoom", subcategory = "Zoom", min = 1, max = 50)
 	public int initialZoom = 4;
@@ -49,11 +19,15 @@ public class ZoomConfig extends Config {
 	@Slider(title = "Zoom Out Time", description = "Seconds taken to return to normal.", category = "Zoom", subcategory = "Zoom", min = 0, max = 5, step = 0.05f)
 	public double zoomOutTime = 0.5;
 
-	@Dropdown(title = "Zoom In Transition", category = "Zoom", subcategory = "Zoom")
-	public Transition zoomInTransition = Transition.EASE_OUT_EXP;
+	@Dropdown(title = "Zoom In Transition", category = "Zoom", subcategory = "Zoom", options = {"instant", "linear", "ease_in_sine", "ease_out_sine", "ease_in_out_sine", "ease_in_quad",
+		"ease_out_quad", "ease_in_out_quad", "ease_in_cubic", "ease_out_cubic", "ease_in_out_cubic",
+		"ease_in_exp", "ease_out_exp", "ease_in_out_exp"})
+	public String zoomInTransition = "ease_out_exp";
 
-	@Dropdown(title = "Zoom Out Transition", category = "Zoom", subcategory = "Zoom")
-	public Transition zoomOutTransition = Transition.EASE_OUT_EXP;
+	@Dropdown(title = "Zoom Out Transition", category = "Zoom", subcategory = "Zoom", options = {"instant", "linear", "ease_in_sine", "ease_out_sine", "ease_in_out_sine", "ease_in_quad",
+		"ease_out_quad", "ease_in_out_quad", "ease_in_cubic", "ease_out_cubic", "ease_in_out_cubic",
+		"ease_in_exp", "ease_out_exp", "ease_in_out_exp"})
+	public String zoomOutTransition = "ease_out_exp";
 
 	@Switch(title = "Affect Hand FOV", description = "Zoom the held item along with the world.", category = "Zoom", subcategory = "Zoom")
 	public boolean affectHandFov = true;

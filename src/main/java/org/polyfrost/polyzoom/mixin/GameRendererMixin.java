@@ -27,12 +27,12 @@ public class GameRendererMixin {
 		return fov / divisor;
 	}
 
-	@ModifyExpressionValue(method = {"render(FJ)V", "tick"}, at = @At(value = "FIELD", target = "Lnet/minecraft/client/options/GameOptions;smoothCamera:Z"))
+	@ModifyExpressionValue(method = {"render(FJ)V", "tick"}, at = @At(value = "FIELD", target = "Lnet/minecraft/client/options/GameOptions;smoothCamera:Z", opcode = Opcodes.GETFIELD))
 	private boolean pz$useSmoothCam(boolean og) {
 		return og || PolyZoom.instance().useCinematicCamera();
 	}
 
-	@ModifyExpressionValue(method = {"render(FJ)V", "tick"}, at = @At(value = "FIELD", target = "Lnet/minecraft/client/options/GameOptions;mouseSensitivity:F"))
+	@ModifyExpressionValue(method = {"render(FJ)V", "tick"}, at = @At(value = "FIELD", target = "Lnet/minecraft/client/options/GameOptions;mouseSensitivity:F", opcode = Opcodes.GETFIELD))
 	private float pz$relativeSensitivity(float og) {
 		return PolyZoom.instance().relativeSensitivity(og);
 	}

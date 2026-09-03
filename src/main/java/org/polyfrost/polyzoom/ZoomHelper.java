@@ -19,8 +19,8 @@ public final class ZoomHelper {
 		this.secondary = secondary;
 	}
 
-	private Transition in() { return secondary ? Transition.LINEAR : c.zoomInTransition; }
-	private Transition out() { return secondary ? Transition.LINEAR : c.zoomOutTransition; }
+	private Transition in() { return secondary ? Transition.LINEAR : Transition.of(c.zoomInTransition); }
+	private Transition out() { return secondary ? Transition.LINEAR : Transition.of(c.zoomOutTransition); }
 	private double timeIn() { return secondary ? c.secondaryZoomInTime : c.zoomInTime; }
 	private double timeOut() { return secondary ? c.secondaryZoomOutTime : c.zoomOutTime; }
 	private int zoomAmount() { return secondary ? c.secondaryZoomAmount : c.initialZoom; }

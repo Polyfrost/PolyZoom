@@ -18,6 +18,15 @@ public enum Transition {
 	EASE_OUT_EXP(t -> 1 - exp(10 - 10 * t), x -> 1 - log(1023 * (1 - x) + 1)),
 	EASE_IN_OUT_EXP(t -> t < 0.5 ? exp(20 * t) / 2 : 1 - exp(20 - 20 * t) / 2);
 
+	/** Parses Zoomify's serialized form. Unknown names fall back rather than break rendering. */
+	public static Transition of(String serializedName) {
+		try {
+			return valueOf(serializedName.toUpperCase(java.util.Locale.ROOT));
+		} catch (IllegalArgumentException e) {
+			return EASE_OUT_EXP;
+		}
+	}
+
 	private final DoubleUnaryOperator forward, backward;
 
 	Transition(DoubleUnaryOperator forward) {
