@@ -21,10 +21,7 @@ public class GameRendererMixin {
 
 	@ModifyReturnValue(method = "getFov(FZ)F", at = @At("RETURN"))
 	private float pz$zoom(float fov, float tickDelta, boolean fovChanged) {
-		float divisor = PolyZoom.instance().zoomDivisor(tickDelta);
-		if (!fovChanged) return PolyZoom.instance().affectHandFov() ? fov / divisor : fov;
-		PolyZoom.instance().onWorldFov(this.minecraft.worldRenderer);
-		return fov / divisor;
+		return PolyZoom.instance().zoomFov(fov, tickDelta, fovChanged, this.minecraft.worldRenderer);
 	}
 
 	@ModifyExpressionValue(method = {"render(FJ)V", "tick"}, at = @At(value = "FIELD", target = "Lnet/minecraft/client/options/GameOptions;smoothCamera:Z", opcode = Opcodes.GETFIELD))

@@ -23,7 +23,8 @@ public class PolyZoom implements ClientModInitializer {
 
 	private boolean zooming, secondaryZooming;
 	private int scrollSteps;
-	private double previousZoomDivisor = 1.0, divisor = 1.0, lastWorldDivisor = 1.0;
+	private double divisor = 1.0, lastWorldDivisor = 1.0;
+	private boolean handPass;
 
 	@Override
 	public void onInitializeClient() {
@@ -76,24 +77,19 @@ public class PolyZoom implements ClientModInitializer {
 		secondaryZoom.tick(secondaryZooming, scrollSteps, 0.05);
 	}
 
-	public float zoomDivisor(float tickDelta) {
+	public float zoomFov(float fov, float tickDelta, boolean worldPass, WorldRenderer worldRenderer) {
 		if (!zooming) {
 			if (!config.retainZoomSteps) scrollSteps = 0;
 			zoom.reset();
 		}
-		previousZoomDivisor = zoom.getZoomDivisor(tickDelta);
-		divisor = previousZoomDivisor * secondaryZoom.getZoomDivisor(tickDelta);
-		return (float) divisor;
-	}
-
-	public void onWorldFov(WorldRenderer worldRenderer) {
-		if (divisor == lastWorldDivisor) return;
-		lastWorldDivisor = divisor;
-		worldRenderer.onViewChanged();
-	}
-
-	public boolean affectHandFov() {
-		return config.affectHandFov;
+		divisor = zoom.getZoomDivisor(tickDelta) * secondaryZoom.getZoomDivisor(tickDelta);
+		handPass = !worldPass;
+		if (!worldPass) return config.affectHandFov ? (float) (fov / divisor) : fov;
+		if (divisor != lastWorldDivisor) {
+			lastWorldDivisor = divisor;
+			worldRenderer.onViewChanged();
+		}
+		return (float) (fov / divisor);
 	}
 
 	public boolean useCinematicCamera() {
@@ -106,12 +102,13 @@ public class PolyZoom implements ClientModInitializer {
 	}
 
 	public float relativeSensitivity(float sensitivity) {
-		return (float) (sensitivity / ZoomHelper.lerp(config.relativeSensitivity / 100.0, 1.0, previousZoomDivisor));
+		return (float) (sensitivity / ZoomHelper.lerp(config.relativeSensitivity / 100.0, 1.0, divisor));
 	}
 
 	public float relativeViewBobbing(float bob) {
 		if (!config.relativeViewBobbing) return bob;
-		return (float) (bob / ZoomHelper.lerp(0.2, 1.0, previousZoomDivisor));
+		if (handPass) return config.affectHandFov ? (float) (bob / divisor) : bob;
+		return (float) (bob / ZoomHelper.lerp(0.2, 1.0, divisor));
 	}
 
 	public boolean hideHud() {
