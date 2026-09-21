@@ -10,6 +10,10 @@ ploceus {
     setIntermediaryGeneration(2)
 }
 
+java.toolchain {
+    languageVersion = JavaLanguageVersion.of(25)
+}
+
 configurations.configureEach {
     exclude(group = "org.lwjgl.lwjgl")
 }

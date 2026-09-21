@@ -1,17 +1,11 @@
 package org.polyfrost.polyzoom;
 
 import java.util.Objects;
-import java.util.function.Consumer;
-
-import org.polyfrost.oneconfig.api.ui.v1.keybind.KeybindHelper;
-import org.polyfrost.oneconfig.internal.legacy.InputConstants;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.render.world.WorldRenderer;
 
 public class PolyZoom implements ClientModInitializer {
-	private static final int UNBOUND = -1;
-
 	private static PolyZoom instance;
 
 	public static PolyZoom instance() {
@@ -32,19 +26,9 @@ public class PolyZoom implements ClientModInitializer {
 		instance = this;
 
 		config = new ZoomConfig();
+		new KeybindConfig();
 		zoom = new ZoomHelper(config, false);
 		secondaryZoom = new ZoomHelper(config, true);
-
-		bind("Zoom", InputConstants.KEY_C, this::onZoomKey);
-		bind("Secondary Zoom", InputConstants.KEY_F6, this::onSecondaryZoomKey);
-		bind("Zoom In", UNBOUND, down -> { if (down) addScrollStep(1); });
-		bind("Zoom Out", UNBOUND, down -> { if (down) addScrollStep(-1); });
-	}
-
-	private void bind(String name, int key, Consumer<Boolean> action) {
-		KeybindHelper builder = KeybindHelper.builder().name(name).category("PolyZoom").action(action);
-		if (key != UNBOUND) builder.key(key);
-		builder.register();
 	}
 
 	public void onZoomKey(boolean down) {
