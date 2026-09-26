@@ -25,8 +25,7 @@ public class PolyZoom implements ClientModInitializer {
 		if (instance != null) throw new IllegalStateException("PolyZoom has already been initialized!");
 		instance = this;
 
-		config = new ZoomConfig();
-		new KeybindConfig();
+		config = new ZoomConfig(new KeybindConfig());
 		zoom = new ZoomHelper(config, false);
 		secondaryZoom = new ZoomHelper(config, true);
 	}
