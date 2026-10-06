@@ -55,7 +55,7 @@ public class ZoomConfig extends Config {
 	public int relativeSensitivity = 100;
 
 	@Switch(title = "Relative View Bobbing", description = "Scale view bobbing down with zoom.", subcategory = "Camera")
-	public boolean relativeViewBobbing = true;
+	public boolean relativeViewBobbing = false;
 
 	@Slider(title = "Cinematic Camera", description = "Amount of cinematic camera smoothing while zooming. 0 disables it.", subcategory = "Camera", min = 0, max = 100)
 	public int cinematicCamera = 0;
