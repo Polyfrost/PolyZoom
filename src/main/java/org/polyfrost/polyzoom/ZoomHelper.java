@@ -25,6 +25,15 @@ public final class ZoomHelper {
 	private double timeOut() { return secondary ? c.secondaryZoomOutTime : c.zoomOutTime; }
 	private int zoomAmount() { return secondary ? c.secondaryZoomAmount : c.initialZoom; }
 	private int maxTiers() { return secondary ? 0 : c.scrollStepCount; }
+
+	// Scrolling out stops at normal FOV
+	public int minTiers() {
+		double stepMultiplier = c.zoomPerStep / 100.0;
+		if (secondary || stepMultiplier <= 1.0) return 0;
+		int stepsToNormalFov = (int) Math.ceil(Math.log(zoomAmount()) / Math.log(stepMultiplier));
+		return -Math.clamp(stepsToNormalFov, 0, maxTiers());
+	}
+
 	private double smoothness() { return secondary ? 1.0 : lerp(c.scrollZoomSmoothness / 100.0, 1.0, 0.1); }
 
 	public void tick(boolean zooming, int tiers, double dt) {
@@ -38,7 +47,7 @@ public final class ZoomHelper {
 		if (!initialIsSmooth()) prevInitial = initial;
 		zoomingLastTick = zooming;
 
-		if (tiers > lastTier) resetting = false;
+		if (Math.abs(tiers) > Math.abs(lastTier)) resetting = false;
 		prevScroll = scroll;
 		scroll = tickSmooth(maxTiers() > 0 ? (double) tiers / maxTiers() : 0.0, scroll, dt);
 		if (!initialIsSmooth()) prevInitial = initial;
@@ -51,7 +60,7 @@ public final class ZoomHelper {
 		double scrollT = resetting ? 0.0 : (smoothness() != 1.0 ? lerp(tickDelta, prevScroll, scroll) : scroll);
 
 		double divisor = base * Math.pow(c.zoomPerStep / 100.0, scrollT * maxTiers());
-		divisor = Math.clamp(divisor, 0.5, 500.0);
+		divisor = Math.clamp(divisor, 1.0, 500.0);
 
 		if (initial == 0.0 && scroll == 0.0) resetting = false;
 		if (!resetting) resetMultiplier = 1 / divisor;
@@ -59,7 +68,7 @@ public final class ZoomHelper {
 	}
 
 	public void reset() {
-		if (!resetting && scroll > 0.0) {
+		if (!resetting && scroll != 0.0) {
 			resetting = true;
 			scroll = prevScroll = 0.0;
 		}
