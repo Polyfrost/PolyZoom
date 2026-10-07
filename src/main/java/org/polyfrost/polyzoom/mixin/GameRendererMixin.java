@@ -39,7 +39,7 @@ public class GameRendererMixin {
 		return PolyZoom.instance().cinematicSmoothness(smoother);
 	}
 
-	@ModifyVariable(method = "applyViewBobbing", at = @At("STORE"), ordinal = 2)
+	@ModifyVariable(method = "applyViewBobbing", at = @At("STORE"), ordinal = 3)
 	private float pz$relativeViewBobbing(float bob) {
 		return PolyZoom.instance().relativeViewBobbing(bob);
 	}
