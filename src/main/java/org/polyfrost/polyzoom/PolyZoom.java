@@ -45,7 +45,7 @@ public class PolyZoom implements ClientModInitializer {
 	}
 
 	public void addScrollStep(int delta) {
-		scrollSteps = Math.clamp(scrollSteps + delta, 0, config.scrollStepCount);
+		scrollSteps = Math.clamp(scrollSteps + delta, zoom.minTiers(), config.scrollStepCount);
 	}
 
 	public int consumeScroll(int dWheel) {
