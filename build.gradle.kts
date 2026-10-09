@@ -26,8 +26,11 @@ repositories {
 
 dependencies {
     minecraft("com.mojang:minecraft:${"minecraft_version"()}")
-    mappings(loom.layered {
-        mappings(ploceus.featherMappings("feather_version"()))
+
+    // ploceus.featherMappings() is itself a layered dependency - nesting it in loom.layered fails on a cold cache
+    // since Loom doesn't order the generation of nested layered mappings
+    mappings(ploceus.layeredMappings {
+        mappings("net.ornithemc:feather-gen2:${"minecraft_version"()}+build.${"feather_version"()}:v2")
         mappings(rootProject.file("gradle/feather-overrides.tiny"))
     })
 
