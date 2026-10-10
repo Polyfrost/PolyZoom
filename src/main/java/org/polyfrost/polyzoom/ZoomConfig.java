@@ -1,6 +1,7 @@
 package org.polyfrost.polyzoom;
 
 import org.polyfrost.oneconfig.api.config.v1.Config;
+import org.polyfrost.oneconfig.api.config.v1.Property;
 import org.polyfrost.oneconfig.api.config.v1.Tree;
 import org.polyfrost.oneconfig.api.config.v1.annotations.Dropdown;
 import org.polyfrost.oneconfig.api.config.v1.annotations.Include;
@@ -93,5 +94,15 @@ public class ZoomConfig extends Config {
 		Tree tree = super.makeTree();
 		if (tree != null) keybinds.addViews(tree);
 		return tree;
+	}
+
+	@Override
+	protected void initialize(boolean byConfigManager) {
+		super.initialize(byConfigManager);
+		if (tree == null) return;
+		Property<Boolean> toggle = Property.recast(getProperty("modEnabled"));
+		tree.onAllProps((id, option) -> {
+			if (option != toggle) option.addDisplayCondition(toggle, false);
+		});
 	}
 }
