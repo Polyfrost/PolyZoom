@@ -55,6 +55,10 @@ public class PolyZoom implements ClientModInitializer {
 	}
 
 	public void tick() {
+		if (!config.modEnabled) {
+			zooming = secondaryZooming = false;
+			scrollSteps = 0;
+		}
 		addScrollStep(0);
 		zoom.tick(zooming, scrollSteps, 0.05);
 		secondaryZoom.tick(secondaryZooming, scrollSteps, 0.05);

@@ -8,6 +8,10 @@ import org.polyfrost.oneconfig.api.config.v1.annotations.Slider;
 import org.polyfrost.oneconfig.api.config.v1.annotations.Switch;
 
 public class ZoomConfig extends Config {
+
+	@Switch(title = "Global Mod Toggle", description = "Toggle all mod features on or off.")
+	public boolean modEnabled = true;
+
 	@Dropdown(title = "Zoom Key Behaviour", subcategory = "Keybinds", options = {"hold", "toggle"})
 	public String zoomKeyBehaviour = "hold";
 
