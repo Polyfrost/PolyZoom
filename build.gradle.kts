@@ -1,6 +1,9 @@
+import net.ltgt.gradle.errorprone.errorprone
+
 plugins {
     id("net.fabricmc.fabric-loom-remap") version("1.17.+")
     id("ploceus") version("1.17.+")
+    id("net.ltgt.errorprone") version("5.1.1")
 }
 
 group = "org.polyfrost"
@@ -41,6 +44,15 @@ dependencies {
     modImplementation("org.polyfrost.oneconfig:${"minecraft_version"()}-ornithe:${"oneconfig_version"()}")
     for (module in arrayOf("commands", "config", "config-impl", "events", "internal", "ui", "utils", "hud")) {
         implementation("org.polyfrost.oneconfig:$module:${"oneconfig_version"()}")
+    }
+
+    errorprone("com.google.errorprone:error_prone_core:${"errorprone_version"()}")
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    options.errorprone {
+        disableAllChecks = true
+        error("UnnecessarilyFullyQualified")
     }
 }
 
