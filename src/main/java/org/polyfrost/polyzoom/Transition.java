@@ -1,5 +1,6 @@
 package org.polyfrost.polyzoom;
 
+import java.util.Locale;
 import java.util.function.DoubleUnaryOperator;
 
 public enum Transition {
@@ -21,7 +22,7 @@ public enum Transition {
 	/** Parses Zoomify's serialized form. Unknown names fall back rather than break rendering. */
 	public static Transition of(String serializedName) {
 		try {
-			return valueOf(serializedName.toUpperCase(java.util.Locale.ROOT));
+			return valueOf(serializedName.toUpperCase(Locale.ROOT));
 		} catch (IllegalArgumentException e) {
 			return EASE_OUT_EXP;
 		}
