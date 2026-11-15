@@ -1,8 +1,8 @@
 import net.ltgt.gradle.errorprone.errorprone
 
 plugins {
-    id("net.fabricmc.fabric-loom-remap") version("1.17.+")
-    id("ploceus") version("1.17.+")
+    id("net.fabricmc.fabric-loom-remap") version("1.19.+")
+    id("ploceus") version("1.19.+")
     id("net.ltgt.errorprone") version("5.1.1")
 }
 
@@ -22,6 +22,7 @@ configurations.configureEach {
 }
 
 repositories {
+    mavenLocal()
     maven("https://repo.polyfrost.org/releases")
     maven("https://maven.cloverclient.com/releases")
     google()
@@ -39,7 +40,6 @@ dependencies {
 
     modImplementation("net.fabricmc:fabric-loader:${"fabric_version"()}")
     ploceus.dependOsl("osl_version"())
-    modImplementation("pl.tomgirl:lenis:${"lenis_version"()}")
 
     modImplementation("org.polyfrost.oneconfig:${"minecraft_version"()}-ornithe:${"oneconfig_version"()}")
     for (module in arrayOf("commands", "config", "config-impl", "events", "internal", "ui", "utils", "hud")) {
@@ -58,10 +58,12 @@ tasks.withType<JavaCompile>().configureEach {
 
 tasks.processResources {
     val v = project.version
+    val oc = "oneconfig_version"()
     inputs.property("version", v)
+    inputs.property("oneconfigVersion", oc)
 
     filesMatching("fabric.mod.json") {
-        expand("version" to v)
+        expand("version" to v, "oneconfig_version" to oc)
     }
 }
 

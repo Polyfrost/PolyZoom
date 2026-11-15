@@ -9,18 +9,20 @@ import org.polyfrost.oneconfig.api.config.v1.Properties;
 import org.polyfrost.oneconfig.api.config.v1.Property;
 import org.polyfrost.oneconfig.api.config.v1.Tree;
 import org.polyfrost.oneconfig.api.config.v1.annotations.Keybind;
+import org.polyfrost.oneconfig.api.platform.v1.Keys;
+import org.polyfrost.oneconfig.api.platform.v1.Platform;
 import org.polyfrost.oneconfig.api.ui.v1.keybind.KeybindHelper;
 import org.polyfrost.oneconfig.api.ui.v1.keybind.OneConfigKeybind;
-import org.polyfrost.oneconfig.internal.legacy.InputConstants;
 
 public class KeybindConfig extends Config {
 	private static final int UNBOUND = -1;
+	private static final Keys KEYS = Platform.compatibility().keys();
 
 	@Keybind(title = "Zoom", subcategory = "Keybinds")
-	public OneConfigKeybind zoomKey = bind(InputConstants.KEY_C, down -> PolyZoom.instance().onZoomKey(down));
+	public OneConfigKeybind zoomKey = bind(KEYS.getKeyC(), down -> PolyZoom.instance().onZoomKey(down));
 
 	@Keybind(title = "Secondary Zoom", subcategory = "Keybinds")
-	public OneConfigKeybind secondaryZoomKey = bind(InputConstants.KEY_F6, down -> PolyZoom.instance().onSecondaryZoomKey(down));
+	public OneConfigKeybind secondaryZoomKey = bind(KEYS.getKeyF6(), down -> PolyZoom.instance().onSecondaryZoomKey(down));
 
 	@Keybind(title = "Zoom In", subcategory = "Keybinds")
 	public OneConfigKeybind zoomInKey = bind(UNBOUND, down -> { if (down) PolyZoom.instance().addScrollStep(1); });

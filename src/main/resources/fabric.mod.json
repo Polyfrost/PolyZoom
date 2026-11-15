@@ -20,5 +20,8 @@
   "license": "GPL-3.0-or-later",
   "mixins": [
     "polyzoom.mixins.json"
-  ]
+  ],
+  "depends": {
+    "oneconfigv1": ">=${oneconfig_version}"
+  }
 }
