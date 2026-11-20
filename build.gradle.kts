@@ -42,9 +42,6 @@ dependencies {
     ploceus.dependOsl("osl_version"())
 
     modImplementation("org.polyfrost.oneconfig:${"minecraft_version"()}-ornithe:${"oneconfig_version"()}")
-    for (module in arrayOf("commands", "config", "config-impl", "events", "internal", "ui", "utils", "hud")) {
-        implementation("org.polyfrost.oneconfig:$module:${"oneconfig_version"()}")
-    }
 
     errorprone("com.google.errorprone:error_prone_core:${"errorprone_version"()}")
 }
